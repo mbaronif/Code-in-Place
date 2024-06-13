@@ -24,7 +24,7 @@ def main():
     middle_y = CANVAS_HEIGHT/2
 
     # Paddle's start coordinates
-    paddle_start_x = middle_x - PADDLE_WIDTH / 2
+    paddle_left_x = middle_x - PADDLE_WIDTH / 2
     paddle_start_y = CANVAS_HEIGHT - PADDLE_HEIGHT
 
     # Start speed
@@ -38,9 +38,9 @@ def main():
     
     # Paddle
     paddle = canvas.create_rectangle(
-        paddle_start_x,
+        paddle_left_x,
         paddle_start_y,
-        paddle_start_x + PADDLE_WIDTH,
+        paddle_left_x + PADDLE_WIDTH,
         CANVAS_HEIGHT,
         "white", "navy")
 
@@ -65,35 +65,41 @@ def main():
             
         time.sleep(DELAY)
         
-        # Tracks the directions of the paddle
-        paddle_x = canvas.get_left_x(paddle)
-        paddle_y = canvas.get_top_y(paddle)
-
-        # It should reverse direction on x=0, but it's skipping
-        # x=1 direct to x=-1.
-        if paddle_start_x < 0:
-            paddle_start_x += INITIAL_PADDLE_SPEED
-        elif paddle_start_x >= CANVAS_WIDTH:
-            paddle_start_x -= INITIAL_PADDLE_SPEED
-
-        print("x:", paddle_x) 
-        
-        # Defines the ball's movement
-        
         # Ball's current coordinates
         ball_left_x = canvas.get_left_x(ball)
         ball_top_y = canvas.get_top_y(ball)
-        # Changes the direction in the coordinates
+        ball_bottom_y = ball_top_y + BALL_SIZE
 
-        # Detects if the ball hits the side walls
-        if ball_left_x < 0 or ball_left_x + BALL_SIZE >= CANVAS_WIDTH:
+        # Paddle's current location
+        paddle_left_x = canvas.get_left_x(paddle)
+        paddle_top_y = canvas.get_top_y(paddle)
+        paddle_right_x = paddle_left_x + PADDLE_WIDTH
+
+        # It should reverse direction on x=0, but it's skipping
+        # x=1 direct to x=-1.
+        if paddle_left_x < 0:
+            paddle_left_x += INITIAL_PADDLE_SPEED
+        elif paddle_left_x >= CANVAS_WIDTH:
+            paddle_left_x -= INITIAL_PADDLE_SPEED
+
+        print("x:", paddle_left_x) 
+        
+        # Checks if the ball hits the side walls
+        if ball_left_x < 0 or ball_bottom_y >= CANVAS_WIDTH:
             change_ball_x = -change_ball_x
         
-        # Detects if the ball hits the up and bottom walls.
-        # It's stuck in the corner.
-        if ball_top_y < 0 or ball_top_y + BALL_SIZE >= CANVAS_HEIGHT:
+        # Checks if the ball hits the up and bottom walls.
+        if ball_top_y < 0 or ball_bottom_y >= CANVAS_HEIGHT:
             change_ball_y = -change_ball_y
-        # If it reaches the bottom wall, the game is over.
+
+        # Checks if the ball hits the paddle and bounces.   
+        # But now, after that, it doesn't bounces in the side walls.
+        if (paddle_top_y <= ball_bottom_y) and (paddle_left_x <= ball_left_x):
+            change_ball_y = -change_ball_y   
+        
+        
+        
+        # If the ball reaches the bottom wall, the game is over.
 
         canvas.move(ball, change_ball_x, change_ball_y)
         time.sleep(DELAY)
@@ -106,9 +112,9 @@ if __name__ == '__main__':
 # Milestones:
 # 1 Set up the game canvas - OK
 # 2 Create the ball and paddle - OK
-# 3 Implement paddle movement - Consegui fazer o movimento do teclado, mas não o limite das bordas laterais.
-# 4 Animate the ball - OK - but, the game still not ends when the ball hits the bottom, and the ball doesn't hit the paddle
-# 5 Handle ball-paddle collision
+# 3 Implement paddle movement - Keybord paddle moving working, but the paddle is going off the canvas, not stopping in the side walls.
+# 4 Animate the ball - OK
+# 5 Handle ball-paddle collision - OK - but after hitting the paddle, the ball doesn't bounce off the side walls anymore. Soving this may solve the paddle border issue too.
 # 6 Implement game over
 # 7 Add rounds and display rounds left
 # 8 Prompt to start the game
