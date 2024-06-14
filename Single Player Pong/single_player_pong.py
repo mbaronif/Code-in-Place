@@ -1,4 +1,4 @@
-from tkinter import Canvas
+from graphics import Canvas
 import time
 
 # Canvas's size
@@ -71,7 +71,7 @@ def main():
         ball_top_y = canvas.get_top_y(ball)
         ball_bottom_y = ball_top_y + BALL_SIZE
 
-            # Paddle's current location
+        # Paddle's current location
         paddle_left_x = canvas.get_left_x(paddle)
         paddle_top_y = canvas.get_top_y(paddle)
         paddle_right_x = paddle_left_x + PADDLE_WIDTH
@@ -87,19 +87,21 @@ def main():
             change_ball_x = -change_ball_x
         
         # Checks if the ball hits the top wall.
-        if ball_top_y <= 0:
+        if ball_top_y < 0:
             change_ball_y = -change_ball_y
         
-        # Checks if the ball hits the bottom line, then ends the game.
-        if ball_bottom_y >= CANVAS_HEIGHT:
+        #Checks if the ball hits the bottom line, then ends the game.
+        if ball_bottom_y > CANVAS_HEIGHT:
             print("Game over.") #Just to check if the game stops. I'll remove it later.
-            #break - to exit the while loop and end the game
-            canvas.create_text(center_x - center_x/2, center_y, font_size = 50, text="GAME OVER", color="red")           
-
+            #canvas.create_text(center_x - center_x/2, center_y, font_size = 50,
+            #    text="GAME OVER", color="red")   
+            break # to exit the while loop and end the game
+        
         # Checks if the ball hits the paddle and bounces.   
         if (paddle_top_y <= ball_bottom_y) and (paddle_left_x <= ball_left_x <= paddle_right_x):
             change_ball_y = -change_ball_y   
         
+
         canvas.move(ball, change_ball_x, change_ball_y)
         time.sleep(DELAY)
        
@@ -107,22 +109,3 @@ def main():
 #canvas.wait_for_click() - útil para quando for iniciar o jogo
 if __name__ == '__main__':
     main()
-
-# Milestones:
-# 1 Set up the game canvas - DONE
-# 2 Create the ball and paddle - DONE
-# 3 Implement paddle movement - DONE
-# 4 Animate the ball - DONE
-# 5 Handle ball-paddle collision - DONE
-# 6 Implement game over
-    #6.1 Condition to end the game when the ball hits the bottom of the screen - DONE
-    #6.2.1 Display a 'Game Over' message centered on the canvas.
-    #6.2.2 Display a 'Game Over' message only after the 3rd chance.
-# 7 Add rounds and display rounds left
-    #7.1 Track the number of rounds left - 3 chances.
-    #7.2 Display the count on the bottom-left corner of the screen.
-# 8 Prompt to start the game
-    #8.1 Prompt 'Round 1" at the beginning of the game.
-    #8.2 Display 'Round 2' and 'Round 3' in the beginning of the 2 and 3 chances.
-# 9 Test and debug
-# Bonus (if there's time): add background color
