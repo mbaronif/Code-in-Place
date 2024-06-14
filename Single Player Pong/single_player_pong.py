@@ -43,7 +43,7 @@ def main():
         paddle_left_x + PADDLE_WIDTH,
         CANVAS_HEIGHT,
         "white", "navy")
-
+    
     while True:
         # Defines the paddle's keyboard movement
         current_location = canvas.move(paddle, paddle_x_speed, paddle_y_speed)
@@ -92,9 +92,7 @@ def main():
         
         #Checks if the ball hits the bottom line, then ends the game.
         if ball_bottom_y > CANVAS_HEIGHT:
-            print("Game over.") #Just to check if the game stops. I'll remove it later.
-            #canvas.create_text(center_x - center_x/2, center_y, font_size = 50,
-            #    text="GAME OVER", color="red")   
+            canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")    
             break # to exit the while loop and end the game
         
         # Checks if the ball hits the paddle and bounces.   
