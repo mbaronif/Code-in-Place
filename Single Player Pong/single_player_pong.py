@@ -93,19 +93,19 @@ def main():
         # Checks if the ball hits the top wall.
         if ball_top_y < 0:
             change_ball_y = -change_ball_y
-        
+                
+        round_left = MAX_ROUND
+
         #Checks if the ball hits the bottom line, then ends the game.
         if ball_bottom_y > CANVAS_HEIGHT:
             game_round +=1 # Adds 1 to game_round.
             round_left = MAX_ROUND - game_round
             print("Rounds left:", str(round_left)) # Print the number of the round   
             canvas.moveto(ball, 0, 0)
-
         
-
-        #canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
-        #break # to exit the while loop and end the game    
-        
+        if round_left == 0:
+            canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
+            break # to exit the while loop and end the game
         
         # Checks if the ball hits the paddle and bounces.   
         if (paddle_top_y <= ball_bottom_y) and (paddle_left_x <= ball_left_x <= paddle_right_x):
@@ -126,10 +126,10 @@ if __name__ == '__main__':
 # 3 Implement paddle movement - DONE
 # 4 Animate the ball - DONE
 # 5 Handle ball-paddle collision - DONE
-# 6 Implement game over
+# 6 Implement game over - DONE
     #6.1 Condition to end the game when the ball hits the bottom of the screen - DONE
     #6.2.1 Display a 'Game Over' message centered on the canvas. - DONE
-        #6.2.1.1 Display a 'Game Over' message only after the 3rd chance.
+        #6.2.1.1 Display a 'Game Over' message only after the 3rd chance. - DONE
 # 7 Add rounds and display rounds left
     #7.1 Track the number of rounds left - 3 chances. - DONE
     #7.2 Display the count on the bottom-left corner of the screen.
