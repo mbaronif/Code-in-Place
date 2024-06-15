@@ -17,9 +17,19 @@ MAX_ROUND = 3
 # Delay of the objects' movement
 DELAY = 0.001
 
+
+
 def main():
     # Sets the canvas edges
     canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+
+    def start_game():
+        print("Press spacebar to start.")
+
+        while True:
+            key = canvas.get_last_key_press()
+            if key == ' ':
+                break
 
     # Canvas's center
     center_x = CANVAS_WIDTH/2
@@ -48,6 +58,8 @@ def main():
     
     game_round = 0 # The initial count of game rounds.
 
+    start_game()
+    
     while True:
         # Defines the paddle's keyboard movement
         current_location = canvas.move(paddle, paddle_x_speed, paddle_y_speed)
@@ -93,7 +105,7 @@ def main():
         # Checks if the ball hits the top wall.
         if ball_top_y < 0:
             change_ball_y = -change_ball_y
-                
+        
         round_left = MAX_ROUND
 
         #Checks if the ball hits the bottom line, then ends the game.
@@ -102,15 +114,18 @@ def main():
             round_left = MAX_ROUND - game_round
             print("Rounds left:", str(round_left)) # Print the number of the round   
             canvas.moveto(ball, 0, 0)
+            if round_left == 0:
+                canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
+                break # to exit the while loop and end the game
+            else:
+                start_game()
         
-        if round_left == 0:
-            canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
-            break # to exit the while loop and end the game
-        
+
+
         # Checks if the ball hits the paddle and bounces.   
         if (paddle_top_y <= ball_bottom_y) and (paddle_left_x <= ball_left_x <= paddle_right_x):
             change_ball_y = -change_ball_y   
-        
+    
 
         canvas.move(ball, change_ball_x, change_ball_y)
         time.sleep(DELAY)
@@ -119,22 +134,3 @@ def main():
 #canvas.wait_for_click() - útil para quando for iniciar o jogo
 if __name__ == '__main__':
     main()
-
-# Milestones:
-# 1 Set up the game canvas - DONE
-# 2 Create the ball and paddle - DONE
-# 3 Implement paddle movement - DONE
-# 4 Animate the ball - DONE
-# 5 Handle ball-paddle collision - DONE
-# 6 Implement game over - DONE
-    #6.1 Condition to end the game when the ball hits the bottom of the screen - DONE
-    #6.2.1 Display a 'Game Over' message centered on the canvas. - DONE
-        #6.2.1.1 Display a 'Game Over' message only after the 3rd chance. - DONE
-# 7 Add rounds and display rounds left
-    #7.1 Track the number of rounds left - 3 chances. - DONE
-    #7.2 Display the count on the bottom-left corner of the screen.
-# 8 Prompt to start the game
-    #8.1 Prompt 'Round 1" at the beginning of the game.
-    #8.2 Display 'Round 2' and 'Round 3' in the beginning of the 2 and 3 chances.
-# 9 Test and debug
-# Bonus (if there's time): add background color
