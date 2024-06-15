@@ -12,6 +12,8 @@ PADDLE_HEIGHT = 20
 
 INITIAL_PADDLE_SPEED = 1
 
+MAX_ROUND = 3
+
 # Delay of the objects' movement
 DELAY = 0.001
 
@@ -44,6 +46,8 @@ def main():
         CANVAS_HEIGHT,
         "white", "navy")
     
+    game_round = 0 # The initial count of game rounds.
+
     while True:
         # Defines the paddle's keyboard movement
         current_location = canvas.move(paddle, paddle_x_speed, paddle_y_speed)
@@ -92,8 +96,18 @@ def main():
         
         #Checks if the ball hits the bottom line, then ends the game.
         if ball_bottom_y > CANVAS_HEIGHT:
-            canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")    
-            break # to exit the while loop and end the game
+            game_round +=1 # Adds 1 to game_round.
+            round_left = MAX_ROUND - game_round
+            print("Rounds left:", str(round_left)) # Print the number of the round   
+            canvas.moveto(ball, 0, 0)
+        
+        if round_left == 0:
+            print("Game over")
+        
+
+        #canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
+        #break # to exit the while loop and end the game    
+        
         
         # Checks if the ball hits the paddle and bounces.   
         if (paddle_top_y <= ball_bottom_y) and (paddle_left_x <= ball_left_x <= paddle_right_x):
@@ -117,9 +131,9 @@ if __name__ == '__main__':
 # 6 Implement game over
     #6.1 Condition to end the game when the ball hits the bottom of the screen - DONE
     #6.2.1 Display a 'Game Over' message centered on the canvas. - DONE
-    #6.2.2 Display a 'Game Over' message only after the 3rd chance.
+        #6.2.1.1 Display a 'Game Over' message only after the 3rd chance.
 # 7 Add rounds and display rounds left
-    #7.1 Track the number of rounds left - 3 chances.
+    #7.1 Track the number of rounds left - 3 chances. - DONE
     #7.2 Display the count on the bottom-left corner of the screen.
 # 8 Prompt to start the game
     #8.1 Prompt 'Round 1" at the beginning of the game.
