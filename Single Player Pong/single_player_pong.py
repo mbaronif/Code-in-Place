@@ -100,9 +100,7 @@ def main():
             round_left = MAX_ROUND - game_round
             print("Rounds left:", str(round_left)) # Print the number of the round   
             canvas.moveto(ball, 0, 0)
-        
-        if round_left == 0:
-            print("Game over")
+
         
 
         #canvas.create_text(55, 180, font_size = 50, text="GAME OVER", color="red")
