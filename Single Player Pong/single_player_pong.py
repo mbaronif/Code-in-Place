@@ -45,8 +45,8 @@ def main():
 
     # Ball
     ball = canvas.create_oval(0, 0, BALL_SIZE, BALL_SIZE, 'blue')
-    change_ball_x = 1 #increment in ball's x coordinate
-    change_ball_y = 1 #increment in ball's y coordinate
+    change_ball_x = 2 #increment in ball's x coordinate
+    change_ball_y = 2 #increment in ball's y coordinate
     
     # Paddle
     paddle = canvas.create_rectangle(
